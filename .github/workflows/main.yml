@@ -52,14 +52,14 @@ jobs:
       - name: Upload Maven build artifact
         uses: actions/upload-artifact@v1
         with:
-          name: verblijven-0.0.1.jar
-          path: ./target/verblijven-0.0.1.jar
+          name: dezoo-verblijven-service-artifact.jar
+          path: ./target/dezoo-verblijvenservice-0.0.1-SNAPSHOT.jar
 
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker Build
-        run: docker build -t ${{ secrets.DOCKER_USER }}/verblijven-advanced-topics:latest .
+        run: docker build -t ${{ secrets.DOCKER_USER }}/dezoo-verblijven:latest .
 
       - name: Upload container to Docker Hub with Push
-        run: docker push ${{ secrets.DOCKER_USER }}/verblijven-advanced-topics:latest
+        run: docker push ${{ secrets.DOCKER_USER }}/dezoo-verblijven:latest
