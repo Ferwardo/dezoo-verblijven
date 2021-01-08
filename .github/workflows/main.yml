@@ -1,4 +1,4 @@
-name: Test, Build and Upload artifact
+name: Test, Build and Upload artifact to docker
 
 on:
   push:
@@ -11,6 +11,7 @@ jobs:
     strategy:
       matrix:
         java: [ 8 ]
+        mongodb: [4.0, 4.2, 4.4]
     name: Java ${{ matrix.java }} compile
     steps:
       - uses: actions/checkout@master
@@ -33,10 +34,11 @@ jobs:
         with:
           java-version: 8
 
-      - name: Start MongoDB for integration test
+      - name: Start MongoDB
         uses: supercharge/mongodb-github-action@1.3.0
         with:
-          mongodb-version: 4.2
+          mongodb-version: ${{ matrix.mongodb }}
+          mongodb-replica-set: verblijven
 
       - name: Test and build project
         run: mvn -f pom.xml clean install
