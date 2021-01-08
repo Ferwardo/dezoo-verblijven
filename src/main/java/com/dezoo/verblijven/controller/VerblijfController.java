@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 @RestController
@@ -59,5 +60,13 @@ public class VerblijfController {
         else{
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostConstruct
+    public void beforeAllTests(){
+        verblijfRepository.deleteAll();
+        verblijfRepository.save(new Verblijf("0", "r-l001", "Pride Rock", 4, 1995, false, "rh031000","l001"));
+        verblijfRepository.save(new Verblijf("1", "r-r001", "De konijnenpijp", 16, 2008, true, "cn170999","r001"));
+        verblijfRepository.save(new Verblijf("3", "r-s001", "Adelaarsnest", 10, 2000, false, "fs161100","s001"));
     }
 }

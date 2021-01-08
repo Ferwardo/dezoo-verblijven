@@ -34,7 +34,7 @@ public class VerblijvenControllerUnitTests {
 
     @Test
     public void givenVerblijf_whenGetVerblijfByPersoneelIDAndDierID_thenReturnJsonVerblijf() throws Exception{
-        Verblijf verblijf = new Verblijf(0,"0", "Pride Rock", 4, 1995, false, "1", "1");
+        Verblijf verblijf = new Verblijf("0","0", "Pride Rock", 4, 1995, false, "1", "1");
 
         given(verblijfRepository.findVerblijfByPersoneelIDAndDierID("1","1")).willReturn(verblijf);
 
@@ -52,8 +52,8 @@ public class VerblijvenControllerUnitTests {
 
     @Test
     public void givenVerblijf_whenGetVerblijfByPersoneelID_thenReturnJsonVerblijven() throws Exception{
-        Verblijf verblijf1 = new Verblijf(0,"0", "Pride Rock", 4, 1995, false, "1", "1");
-        Verblijf verblijf2 = new Verblijf(3, "3", "Adelaarsnest", 3, 2000, false, "1","3");
+        Verblijf verblijf1 = new Verblijf("0","0", "Pride Rock", 4, 1995, false, "1", "1");
+        Verblijf verblijf2 = new Verblijf("3", "3", "Adelaarsnest", 3, 2000, false, "1","3");
 
         List<Verblijf> verblijfList = new ArrayList<>();
         verblijfList.add(verblijf1);
@@ -81,8 +81,8 @@ public class VerblijvenControllerUnitTests {
 
     @Test
     public void whenGivenVerblijf_whenGetVerblijvenByAnimalID_thenReturnJsonReviews() throws Exception{
-        Verblijf verblijf1 = new Verblijf(0,"0", "Pride Rock", 4, 1995, false, "1", "1");
-        Verblijf verblijf2 = new Verblijf(4, "4", "Shame Rock", 3, 2000, true, "2","1");
+        Verblijf verblijf1 = new Verblijf("0","0", "Pride Rock", 4, 1995, false, "1", "1");
+        Verblijf verblijf2 = new Verblijf("4", "4", "Shame Rock", 3, 2000, true, "2","1");
 
         List<Verblijf> verblijfList = new ArrayList<>();
         verblijfList.add(verblijf1);
@@ -110,7 +110,7 @@ public class VerblijvenControllerUnitTests {
 
     @Test
     public void whenPostVerblijf_thenReturnJsonVerblijf() throws Exception{
-        Verblijf testVerblijf = new Verblijf(16,"16","in progress",1,2021,true,"2","5");
+        Verblijf testVerblijf = new Verblijf("16","16","in progress",1,2021,true,"2","5");
 
         mockMvc.perform(post("/verblijven")
                 .content(mapper.writeValueAsString(testVerblijf))
@@ -128,11 +128,11 @@ public class VerblijvenControllerUnitTests {
 
     @Test
     public void givenVerblijf_whenPutVerblijf_thenReturnJsonReview() throws Exception{
-        Verblijf verblijf = new Verblijf(1, "1", "De konijnenpijp", 16, 2008, true, "2","2");
+        Verblijf verblijf = new Verblijf("1", "1", "De konijnenpijp", 16, 2008, true, "2","2");
 
         given(verblijfRepository.findVerblijfByPersoneelIDAndDierID("2","2")).willReturn(verblijf);
 
-        Verblijf updatedVerblijf = new Verblijf(1, "1", "De konijnenpijp", 6, 2018, true, "2","2");
+        Verblijf updatedVerblijf = new Verblijf("1", "1", "De konijnenpijp", 6, 2018, true, "2","2");
 
         mockMvc.perform(put("/verblijven")
                 .content(mapper.writeValueAsString(updatedVerblijf))
@@ -151,7 +151,7 @@ public class VerblijvenControllerUnitTests {
     @Test
     public void givenVerblijf_whenDeleteVerblijf_thenStatusOk() throws Exception{
 
-        Verblijf verblijfToBeDeleted = new Verblijf(4, "4", "White House", 1,2021,true, "0","0");
+        Verblijf verblijfToBeDeleted = new Verblijf("4", "4", "White House", 1,2021,true, "0","0");
 
         given(verblijfRepository.findVerblijfByPersoneelIDAndDierID("0","0")).willReturn(verblijfToBeDeleted);
 
