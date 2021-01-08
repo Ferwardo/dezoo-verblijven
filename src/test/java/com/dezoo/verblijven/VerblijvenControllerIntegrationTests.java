@@ -28,10 +28,10 @@ class VerblijvenControllerIntegrationTests {
     @Autowired
     private VerblijfRepository verblijfRepository;
 
-    private Verblijf verblijf1 = new Verblijf(0, "0", "Pride Rock", 4, 1995, false, "1","1");
-    private Verblijf verblijf2 = new Verblijf(1, "1", "De konijnenpijp", 16, 2008, true, "2","2");
-    private Verblijf verblijf3 = new Verblijf(3, "3", "Adelaarsnest", 3, 2000, false, "1","3");
-    private Verblijf verblijfToBeDeleted = new Verblijf(4, "4", "White House", 1,2021,true, "0","0");
+    private Verblijf verblijf1 = new Verblijf("0", "0", "Pride Rock", 4, 1995, false, "1","1");
+    private Verblijf verblijf2 = new Verblijf("1", "1", "De konijnenpijp", 16, 2008, true, "2","2");
+    private Verblijf verblijf3 = new Verblijf("3", "3", "Adelaarsnest", 3, 2000, false, "1","3");
+    private Verblijf verblijfToBeDeleted = new Verblijf("4", "4", "White House", 1,2021,true, "0","0");
 
     @BeforeEach
     public void beforeAllTests(){
@@ -91,7 +91,7 @@ class VerblijvenControllerIntegrationTests {
 
     @Test
     public void whenPostVerblijf_thenReturnJsonVerblijf() throws Exception{
-        Verblijf testVerblijf = new Verblijf(16,"16","in progress",1,2021,true,"2","5");
+        Verblijf testVerblijf = new Verblijf("16","16","in progress",1,2021,true,"2","5");
 
         mockMvc.perform(post("/verblijven")
                 .content(mapper.writeValueAsString(testVerblijf))
@@ -109,7 +109,7 @@ class VerblijvenControllerIntegrationTests {
 
     @Test
     public void givenVerblijf_whenPutVerblijf_thenReturnJsonReview() throws Exception{
-        Verblijf updatedVerblijf = new Verblijf(1, "1", "De konijnenpijp", 14, 2018, true, "2","2");
+        Verblijf updatedVerblijf = new Verblijf("1", "1", "De konijnenpijp", 14, 2018, true, "2","2");
 
         mockMvc.perform(put("/verblijven")
                 .content(mapper.writeValueAsString(updatedVerblijf))

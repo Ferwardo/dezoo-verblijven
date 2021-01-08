@@ -2,7 +2,6 @@ package com.dezoo.verblijven.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.GeneratedValue;
@@ -15,7 +14,7 @@ public class Verblijf {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private int id;
+    private String id;
     private String verblijfID;
     private String personeelID;
     private String dierID;
@@ -28,7 +27,7 @@ public class Verblijf {
 
     }
 
-    public Verblijf(Integer id, String verblijfID, String name, Integer maxDieren, Integer bouwJaar, Boolean nocturnal, String personeelID, String dierID){
+    public Verblijf(String id, String verblijfID, String name, Integer maxDieren, Integer bouwJaar, Boolean nocturnal, String personeelID, String dierID){
         this.id = id;
         this.verblijfID = verblijfID;
         this.name = name;
@@ -40,11 +39,11 @@ public class Verblijf {
     }
 
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
