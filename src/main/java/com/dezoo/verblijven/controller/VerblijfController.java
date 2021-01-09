@@ -50,7 +50,7 @@ public class VerblijfController {
         return retrievedVerblijf;
     }
 
-    @DeleteMapping("/verblijven/verblijfsID")
+    @DeleteMapping("/verblijven/{verblijfsID}")
     public ResponseEntity deleteVerblijf(@PathVariable String verblijfsID){
         Verblijf verblijf = verblijfRepository.findFirstByVerblijfID(verblijfsID);
         if(verblijf!=null){
