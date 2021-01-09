@@ -28,7 +28,7 @@ public class VerblijfController {
 
     @GetMapping("/verblijven/{verblijfsID}")
     public Verblijf getVerblijfByVerblijfID(@PathVariable String verblijfsID){
-        return verblijfRepository.findVerblijfByVerblijfID(verblijfsID);
+        return verblijfRepository.findFirstByVerblijfID(verblijfsID);
     }
 
     @PostMapping("/verblijven")
@@ -52,7 +52,7 @@ public class VerblijfController {
 
     @DeleteMapping("/verblijven/verblijfsID")
     public ResponseEntity deleteVerblijf(@PathVariable String verblijfsID){
-        Verblijf verblijf = verblijfRepository.findVerblijfByVerblijfID(verblijfsID);
+        Verblijf verblijf = verblijfRepository.findFirstByVerblijfID(verblijfsID);
         if(verblijf!=null){
             verblijfRepository.delete(verblijf);
             return ResponseEntity.ok().build();
@@ -65,8 +65,8 @@ public class VerblijfController {
     @PostConstruct
     public void fillDb(){
         verblijfRepository.deleteAll();
-        verblijfRepository.save(new Verblijf("0", "r-l001", "Pride Rock", 4, 1995, false, "fs161100","l001"));
-        verblijfRepository.save(new Verblijf("1", "r-r001", "De konijnenpijp", 16, 2008, true, "cn170999","r001"));
-        verblijfRepository.save(new Verblijf("3", "r-s001", "Adelaarsnest", 10, 2000, false, "fs161100","s001"));
+        verblijfRepository.save(new Verblijf("0", "l001", "Pride Rock", 4, 1995, false, "fs161100","l001"));
+        verblijfRepository.save(new Verblijf("1", "r001", "De konijnenpijp", 16, 2008, true, "cn170999","r001"));
+        verblijfRepository.save(new Verblijf("3", "s001", "Adelaarsnest", 10, 2000, false, "fs161100","s001"));
     }
 }

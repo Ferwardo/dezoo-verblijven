@@ -12,5 +12,5 @@ public interface VerblijfRepository extends MongoRepository<Verblijf, String> {
     List<Verblijf> findVerblijfByPersoneelID(String personeelID);
     List<Verblijf> findVerblijfByDierID(String dierID);
     Verblijf findVerblijfByPersoneelIDAndDierID(String personeelID, String dierID);
-    Verblijf findVerblijfByVerblijfID(String verblijfID);
+    Verblijf findFirstByVerblijfID(String verblijfID);
 }
