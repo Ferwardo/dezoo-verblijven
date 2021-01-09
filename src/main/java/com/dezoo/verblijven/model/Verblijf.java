@@ -94,4 +94,12 @@ public class Verblijf {
     public void setDierID(String dierID) {
         this.dierID = dierID;
     }
+
+    public String getVerblijfID() {
+        return verblijfID;
+    }
+
+    public void setVerblijfID(String verblijfID) {
+        this.verblijfID = verblijfID;
+    }
 }
