@@ -50,14 +50,14 @@ class VerblijvenControllerIntegrationTests {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void givenVerblijf_whenGetVerblijfByPersoneelIDAndDierID_thenReturnJsonVerblijf() throws Exception{
-        mockMvc.perform(get("/verblijven/personeel/{personeelID}/dieren/{dierID}", "1","1"))
+    public void givenVerblijf_whenGetVerblijfByResidenceID_thenReturnJsonVerblijf() throws Exception{
+        mockMvc.perform(get("/verblijven/{verblijfID}", "0"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.verblijfID", is("0")))
                 .andExpect(jsonPath("$.name", is("Pride Rock")))
                 .andExpect(jsonPath("$.maxDieren", is(4)))
-                .andExpect(jsonPath("$.bouwjaar", is(1995)))
+                .andExpect(jsonPath("$.bouwJaar", is(1995)))
                 .andExpect(jsonPath("$.nocturnal", is(false)))
                 .andExpect(jsonPath("$.personeelID", is("1")))
                 .andExpect(jsonPath("$.dierID", is("1")));
@@ -65,28 +65,24 @@ class VerblijvenControllerIntegrationTests {
 
     @Test
     public void givenVerblijf_whenGetVerblijfByPersoneelID_thenReturnJsonVerblijven() throws Exception{
-        List<Verblijf> verblijfList = new ArrayList<>();
-        verblijfList.add(verblijf1);
-        verblijfList.add(verblijf3);
-
-        mockMvc.perform(get("/verblijven/personeel/personeelID", "1"))
+        mockMvc.perform(get("/verblijven/personeel/{personeelID}", "1"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$.verblijfID", is("0")))
-                .andExpect(jsonPath("$.name", is("Pride Rock")))
-                .andExpect(jsonPath("$.maxDieren", is(4)))
-                .andExpect(jsonPath("$.bouwjaar", is(1995)))
-                .andExpect(jsonPath("$.nocturnal", is(false)))
-                .andExpect(jsonPath("$.personeelID", is("1")))
-                .andExpect(jsonPath("$.dierID", is("1")))
-                .andExpect(jsonPath("$.verblijfID", is("3")))
-                .andExpect(jsonPath("$.name", is("Aderlaarsnest")))
-                .andExpect(jsonPath("$.maxDieren", is(3)))
-                .andExpect(jsonPath("$.bouwjaar", is(2000)))
-                .andExpect(jsonPath("$.nocturnal", is(false)))
-                .andExpect(jsonPath("$.personeelID", is("1")))
-                .andExpect(jsonPath("$.dierID", is("3")));
+                .andExpect(jsonPath("[0].verblijfID", is("0")))
+                .andExpect(jsonPath("[0].name", is("Pride Rock")))
+                .andExpect(jsonPath("[0].maxDieren", is(4)))
+                .andExpect(jsonPath("[0].bouwJaar", is(1995)))
+                .andExpect(jsonPath("[0].nocturnal", is(false)))
+                .andExpect(jsonPath("[0].personeelID", is("1")))
+                .andExpect(jsonPath("[0].dierID", is("1")))
+                .andExpect(jsonPath("[1].verblijfID", is("3")))
+                .andExpect(jsonPath("[1].name", is("Adelaarsnest")))
+                .andExpect(jsonPath("[1].maxDieren", is(3)))
+                .andExpect(jsonPath("[1].bouwJaar", is(2000)))
+                .andExpect(jsonPath("[1].nocturnal", is(false)))
+                .andExpect(jsonPath("[1].personeelID", is("1")))
+                .andExpect(jsonPath("[1].dierID", is("3")));
     }
 
     @Test
@@ -101,7 +97,7 @@ class VerblijvenControllerIntegrationTests {
                 .andExpect(jsonPath("$.verblijfID", is("16")))
                 .andExpect(jsonPath("$.name", is("in progress")))
                 .andExpect(jsonPath("$.maxDieren", is(1)))
-                .andExpect(jsonPath("$.bouwjaar", is(2021)))
+                .andExpect(jsonPath("$.bouwJaar", is(2021)))
                 .andExpect(jsonPath("$.nocturnal", is(true)))
                 .andExpect(jsonPath("$.personeelID", is("2")))
                 .andExpect(jsonPath("$.dierID", is("5")));
@@ -119,7 +115,7 @@ class VerblijvenControllerIntegrationTests {
                 .andExpect(jsonPath("$.verblijfID", is("1")))
                 .andExpect(jsonPath("$.name", is("De konijnenpijp")))
                 .andExpect(jsonPath("$.maxDieren", is(14)))
-                .andExpect(jsonPath("$.bouwjaar", is(2018)))
+                .andExpect(jsonPath("$.bouwJaar", is(2018)))
                 .andExpect(jsonPath("$.nocturnal", is(true)))
                 .andExpect(jsonPath("$.personeelID", is("2")))
                 .andExpect(jsonPath("$.dierID", is("2")));
@@ -127,14 +123,14 @@ class VerblijvenControllerIntegrationTests {
 
     @Test
     public void givenVerblijf_whenDeleteVerblijf_thenStatusOk() throws Exception{
-        mockMvc.perform(delete("/verblijven/personeel/{personeelID}/dieren/{dierID}", "0", "0")
+        mockMvc.perform(delete("/verblijven/{verblijfsID}", "4")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void givenNoVerblijf_whenDeleteVerblijf_thenStatusNotFound() throws Exception{
-        mockMvc.perform(delete("/verblijven/personeel/{personeelID}/dieren/{dierID}", "81", "81")
+        mockMvc.perform(delete("/verblijven/{verblijfsID}}", "81")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }

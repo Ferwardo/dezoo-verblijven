@@ -33,18 +33,18 @@ public class VerblijvenControllerUnitTests {
     private ObjectMapper mapper = new ObjectMapper();
 
     @Test
-    public void givenVerblijf_whenGetVerblijfByPersoneelIDAndDierID_thenReturnJsonVerblijf() throws Exception{
+    public void givenVerblijf_whenGetVerblijfByVerblijfID_thenReturnJsonVerblijf() throws Exception{
         Verblijf verblijf = new Verblijf("0","0", "Pride Rock", 4, 1995, false, "1", "1");
 
-        given(verblijfRepository.findVerblijfByPersoneelIDAndDierID("1","1")).willReturn(verblijf);
+        given(verblijfRepository.findFirstByVerblijfID("0")).willReturn(verblijf);
 
-        mockMvc.perform(get("/verblijven/personeel/{personeelID}/dieren/{dierID}", "1","1"))
+        mockMvc.perform(get("/verblijven/{verblijfID}", "0"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.verblijfID", is("0")))
                 .andExpect(jsonPath("$.name", is("Pride Rock")))
                 .andExpect(jsonPath("$.maxDieren", is(4)))
-                .andExpect(jsonPath("$.bouwjaar", is(1995)))
+                .andExpect(jsonPath("$.bouwJaar", is(1995)))
                 .andExpect(jsonPath("$.nocturnal", is(false)))
                 .andExpect(jsonPath("$.personeelID", is("1")))
                 .andExpect(jsonPath("$.dierID", is("1")));
@@ -59,24 +59,26 @@ public class VerblijvenControllerUnitTests {
         verblijfList.add(verblijf1);
         verblijfList.add(verblijf2);
 
-        mockMvc.perform(get("/verblijven/personeel/personeelID", "1"))
+        given(verblijfRepository.findVerblijfByPersoneelID("1")).willReturn(verblijfList);
+
+        mockMvc.perform(get("/verblijven/personeel/{personeelID}", "1"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$.verblijfID", is("0")))
-                .andExpect(jsonPath("$.name", is("Pride Rock")))
-                .andExpect(jsonPath("$.maxDieren", is(4)))
-                .andExpect(jsonPath("$.bouwjaar", is(1995)))
-                .andExpect(jsonPath("$.nocturnal", is(false)))
-                .andExpect(jsonPath("$.personeelID", is("1")))
-                .andExpect(jsonPath("$.dierID", is("1")))
-                .andExpect(jsonPath("$.verblijfID", is("3")))
-                .andExpect(jsonPath("$.name", is("Aderlaarsnest")))
-                .andExpect(jsonPath("$.maxDieren", is(3)))
-                .andExpect(jsonPath("$.bouwjaar", is(2000)))
-                .andExpect(jsonPath("$.nocturnal", is(false)))
-                .andExpect(jsonPath("$.personeelID", is("1")))
-                .andExpect(jsonPath("$.dierID", is("3")));
+                .andExpect(jsonPath("[0].verblijfID", is("0")))
+                .andExpect(jsonPath("[0].name", is("Pride Rock")))
+                .andExpect(jsonPath("[0].maxDieren", is(4)))
+                .andExpect(jsonPath("[0].bouwJaar", is(1995)))
+                .andExpect(jsonPath("[0].nocturnal", is(false)))
+                .andExpect(jsonPath("[0].personeelID", is("1")))
+                .andExpect(jsonPath("[0].dierID", is("1")))
+                .andExpect(jsonPath("[1].verblijfID", is("3")))
+                .andExpect(jsonPath("[1].name", is("Adelaarsnest")))
+                .andExpect(jsonPath("[1].maxDieren", is(3)))
+                .andExpect(jsonPath("[1].bouwJaar", is(2000)))
+                .andExpect(jsonPath("[1].nocturnal", is(false)))
+                .andExpect(jsonPath("[1].personeelID", is("1")))
+                .andExpect(jsonPath("[1].dierID", is("3")));
     }
 
     @Test
@@ -88,24 +90,26 @@ public class VerblijvenControllerUnitTests {
         verblijfList.add(verblijf1);
         verblijfList.add(verblijf2);
 
-        mockMvc.perform(get("/verblijven/dieren/dierID", "1"))
+        given(verblijfRepository.findVerblijfByDierID("1")).willReturn(verblijfList);
+
+        mockMvc.perform(get("/verblijven/dieren/{dierID}", "1"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$.verblijfID", is("0")))
-                .andExpect(jsonPath("$.name", is("Pride Rock")))
-                .andExpect(jsonPath("$.maxDieren", is(4)))
-                .andExpect(jsonPath("$.bouwjaar", is(1995)))
-                .andExpect(jsonPath("$.nocturnal", is(false)))
-                .andExpect(jsonPath("$.personeelID", is("1")))
-                .andExpect(jsonPath("$.dierID", is("1")))
-                .andExpect(jsonPath("$.verblijfID", is("4")))
-                .andExpect(jsonPath("$.name", is("Shame Rock")))
-                .andExpect(jsonPath("$.maxDieren", is(3)))
-                .andExpect(jsonPath("$.bouwjaar", is(2000)))
-                .andExpect(jsonPath("$.nocturnal", is(true)))
-                .andExpect(jsonPath("$.personeelID", is("2")))
-                .andExpect(jsonPath("$.dierID", is("1")));
+                .andExpect(jsonPath("[0].verblijfID", is("0")))
+                .andExpect(jsonPath("[0].name", is("Pride Rock")))
+                .andExpect(jsonPath("[0].maxDieren", is(4)))
+                .andExpect(jsonPath("[0].bouwJaar", is(1995)))
+                .andExpect(jsonPath("[0].nocturnal", is(false)))
+                .andExpect(jsonPath("[0].personeelID", is("1")))
+                .andExpect(jsonPath("[0].dierID", is("1")))
+                .andExpect(jsonPath("[1].verblijfID", is("4")))
+                .andExpect(jsonPath("[1].name", is("Shame Rock")))
+                .andExpect(jsonPath("[1].maxDieren", is(3)))
+                .andExpect(jsonPath("[1].bouwJaar", is(2000)))
+                .andExpect(jsonPath("[1].nocturnal", is(true)))
+                .andExpect(jsonPath("[1].personeelID", is("2")))
+                .andExpect(jsonPath("[1].dierID", is("1")));
     }
 
     @Test
@@ -120,7 +124,7 @@ public class VerblijvenControllerUnitTests {
                 .andExpect(jsonPath("$.verblijfID", is("16")))
                 .andExpect(jsonPath("$.name", is("in progress")))
                 .andExpect(jsonPath("$.maxDieren", is(1)))
-                .andExpect(jsonPath("$.bouwjaar", is(2021)))
+                .andExpect(jsonPath("$.bouwJaar", is(2021)))
                 .andExpect(jsonPath("$.nocturnal", is(true)))
                 .andExpect(jsonPath("$.personeelID", is("2")))
                 .andExpect(jsonPath("$.dierID", is("5")));
@@ -142,7 +146,7 @@ public class VerblijvenControllerUnitTests {
                 .andExpect(jsonPath("$.verblijfID", is("1")))
                 .andExpect(jsonPath("$.name", is("De konijnenpijp")))
                 .andExpect(jsonPath("$.maxDieren", is(6)))
-                .andExpect(jsonPath("$.bouwjaar", is(2018)))
+                .andExpect(jsonPath("$.bouwJaar", is(2018)))
                 .andExpect(jsonPath("$.nocturnal", is(true)))
                 .andExpect(jsonPath("$.personeelID", is("2")))
                 .andExpect(jsonPath("$.dierID", is("2")));
@@ -153,9 +157,9 @@ public class VerblijvenControllerUnitTests {
 
         Verblijf verblijfToBeDeleted = new Verblijf("4", "4", "White House", 1,2021,true, "0","0");
 
-        given(verblijfRepository.findVerblijfByPersoneelIDAndDierID("0","0")).willReturn(verblijfToBeDeleted);
+        given(verblijfRepository.findFirstByVerblijfID("4")).willReturn(verblijfToBeDeleted);
 
-        mockMvc.perform(delete("/verblijven/personeel/{personeelID}/dieren/{dierID}", "0", "0")
+        mockMvc.perform(delete("/verblijven/{verblijfID}", "4")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -163,9 +167,9 @@ public class VerblijvenControllerUnitTests {
     @Test
     public void givenNoVerblijf_whenDeleteVerblijf_thenStatusNotFound() throws Exception{
 
-        given(verblijfRepository.findVerblijfByPersoneelIDAndDierID("81","81")).willReturn(null);
+        given(verblijfRepository.findFirstByVerblijfID("81")).willReturn(null);
 
-        mockMvc.perform(delete("/verblijven/personeel/{personeelID}/dieren/{dierID}", "81", "81")
+        mockMvc.perform(delete("/verblijven/{verblijfID}", "81")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
